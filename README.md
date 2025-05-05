@@ -1,2 +1,11 @@
-# SNA4PPM
-Predictive Process Monitoring using Social Network Analysis
+# QueueTab: Remaining Time Prediction via Queue Mining and Machine Learning for Tabular Data
+
+Name of the target column is "**rem_time**" for all datasets.
+
+Columns that should not be used for predictions are the followings:
+"**case:concept:name**", "**prefix_length**", "**set**": these are always the first three columns, the first two show the case id and its length and used to specify for which instance the prediction is done. At last we need a dataframe for predictions with minimum 4 columns: "case:concept:name", "prefix_length" the real observed remaining time ("rem_time") and the prediction of the model. The column set determines whether this row belongs to train or test set. (no validation set is specified so feel free to create a one)
+
+columns "**start**", "**end**", "**enabled_time**" are raw timestamps that are used for feature extraction.
+
+"**next_proc**", "**next_wait**" are two additional target columns for next processing and next waiting time prediction. But, after rethinking the story of the paper, I think it is better to only focus on remaining time prediction. Therefore, these two columns should not be used for predictions or as target columns.
+

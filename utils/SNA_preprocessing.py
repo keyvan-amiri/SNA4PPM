@@ -17,6 +17,10 @@ def augment_args(args, cfg):
     args.case_col = cfg['features']['case_col']
     args.act_col = cfg['features']['act_col']
     args.time_col = cfg['features']['time_col']
+    if args.dataset in ['BPIC17']:
+        args.time_format_inference =True
+    else:
+        args.time_format_inference =False
     args.trans_col = cfg['features']['trans_col']
     args.res_col = cfg['features']['res_col'] 
     case_features = cfg['features']['case_feat'] 

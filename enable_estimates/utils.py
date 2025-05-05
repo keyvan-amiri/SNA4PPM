@@ -571,6 +571,7 @@ def read_csv_log(
     log_ids: EventLogIDs,
     missing_resource: Optional[str] = "NOT_SET",
     sort=True,
+    time_format_inference=False,
 ) -> pd.DataFrame:
     """
     Read an event log from a CSV file given the column IDs in [log_ids]. Set the enabled_time, start_time, and end_time columns to date,
@@ -596,12 +597,27 @@ def read_csv_log(
     # Set resource type to string if numeric
     if log_ids.resource in event_log.columns:
         event_log[log_ids.resource] = event_log[log_ids.resource].apply(str)
-    # Convert timestamp value to pd.Timestamp (setting timezone to UTC)
-    event_log[log_ids.end_time] = pd.to_datetime(event_log[log_ids.end_time], utc=True)
-    if log_ids.start_time in event_log.columns:
-        event_log[log_ids.start_time] = pd.to_datetime(event_log[log_ids.start_time], utc=True)
-    if log_ids.enabled_time in event_log.columns:
-        event_log[log_ids.enabled_time] = pd.to_datetime(event_log[log_ids.enabled_time], utc=True)
+    if time_format_inference:
+        event_log[log_ids.end_time] = pd.to_datetime(
+            event_log[log_ids.end_time], utc=True, format="%Y-%m-%d %H:%M:%S%z")
+        if log_ids.start_time in event_log.columns:
+            event_log[log_ids.start_time] = pd.to_datetime(
+                event_log[log_ids.start_time], utc=True,
+                format="%Y-%m-%d %H:%M:%S%z")
+        if log_ids.enabled_time in event_log.columns:
+            event_log[log_ids.enabled_time] = pd.to_datetime(
+                event_log[log_ids.enabled_time], utc=True, 
+                format="%Y-%m-%d %H:%M:%S%z")
+    else:
+        # Convert timestamp value to pd.Timestamp (setting timezone to UTC)
+        event_log[log_ids.end_time] = pd.to_datetime(
+            event_log[log_ids.end_time], utc=True)
+        if log_ids.start_time in event_log.columns:
+            event_log[log_ids.start_time] = pd.to_datetime(
+                event_log[log_ids.start_time], utc=True)
+        if log_ids.enabled_time in event_log.columns:
+            event_log[log_ids.enabled_time] = pd.to_datetime(
+                event_log[log_ids.enabled_time], utc=True)
     # Sort by end time
     if sort:
         if log_ids.start_time in event_log.columns and log_ids.enabled_time in event_log.columns:

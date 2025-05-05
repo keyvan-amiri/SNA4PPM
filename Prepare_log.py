@@ -59,7 +59,8 @@ def main():
         event_log = read_csv_log(
             log_path=args.out_path,
             log_ids=configuration.log_ids,
-            sort=True  # Sort log by end time
+            sort=True,
+            time_format_inference=args.time_format_inference
             )
         concurrency_oracle = HeuristicsConcurrencyOracle(event_log, configuration)
         extended_event_log = concurrency_oracle.add_enabled_times(
@@ -82,7 +83,8 @@ def main():
         event_log = read_csv_log(
             log_path=args.out_path,
             log_ids=configuration.log_ids,
-            sort=True  # Sort log by end time
+            sort=True,
+            time_format_inference=args.time_format_inference
             )
         # Estimate start times
         extended_event_log = StartTimeEstimator(

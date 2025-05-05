@@ -30,3 +30,8 @@ sbatch bash_scripts/BPIC17.sh
 
 
 sed -i 's/\r//' bash_scripts/BPIC17.sh
+
+
+case:concept:name,prefix_length,set,concept:name,org:resource,start,end,enabling_activity,enabling_resource,enabled_time,case:responsible_section,case:support_section,case:product,workgroup,seriousness_2,service_level,service_type,proc_time,wait_time,Role,enabling_role,start_day,start_hour,end_day,end_hour,enabled_time_day,enabled_time_hour,agg_proc,agg_wait,since_start,proc_wait_ratio,act_1,act_2,act_3,act_4,Role 1_load,Role 4_load,Role 2_load,Role 3_load,Role 1_to_Role 1_queue,Role 1_to_Role 4_queue,Role 1_to_Role 2_queue,Role 1_to_Role 3_queue,Role 4_to_Role 4_queue,Role 4_to_Role 2_queue,Role 4_to_Role 1_queue,Role 2_to_Role 1_queue,Role 2_to_Role 2_queue,Role 3_to_Role 1_queue,node_inp_dist_1,node_inp_dist_2,node_inp_dist_3,node_inp_dist_4,node_inp_dist_5,node_out_dist_1,node_out_dist_2,node_out_dist_3,node_out_dist_4,node_out_dist_5,edge_inp_dist_1,edge_inp_dist_2,edge_inp_dist_3,edge_inp_dist_4,edge_inp_dist_5,edge_out_dist_1,edge_out_dist_2,edge_out_dist_3,edge_out_dist_4,edge_out_dist_5,rem_time,next_proc,next_wait
+
+

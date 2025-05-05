@@ -3,13 +3,13 @@
 Created on Thu Apr 17 11:38:47 2025
 @author: Keyvan Amiri Elyasi
 """
+import os
 import numpy as np
 import pandas as pd
 import pm4py
 from collections import defaultdict
 from catboost import Pool
 #from pm4py.objects.log.importer.xes import importer as xes_importer
-#import os
 #import networkx as nx
 #import matplotlib.pyplot as plt
 #import torch
@@ -22,6 +22,19 @@ from catboost import Pool
 #from sklearn.metrics import make_scorer, mean_absolute_error
 #from sklearn.model_selection import train_test_split
 
+def augment_args(args, cfg):
+    args.dataset_path = os.path.join(args.root_path, 'data', args.dataset)
+    args.dataset = args.dataset[:-4]
+    args.case_col = cfg['meta']['case_col']
+    args.act_col = cfg['meta']['act_col']
+    args.time_col = cfg['meta']['time_col']
+    args.trans_col = cfg['meta']['trans_col']
+    args.res_col = cfg['meta']['res_col']
+    args.start_act = cfg['meta']['start_act']
+    args.end_act = cfg['meta']['end_act']
+    args.event_feats = cfg['meta']['event_feats']
+    args.case_feats = cfg['meta']['case_feats'] 
+    return args
 
 def validate_and_fix_start_end(df):
     df = df.copy()

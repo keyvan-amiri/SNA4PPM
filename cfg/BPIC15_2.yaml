@@ -1,0 +1,16 @@
+graph:
+  abstraction: False
+  rp_sim: 0.85
+  neighbors: 5
+features:
+  case_col: case:concept:name
+  act_col: concept:name
+  time_col: time:timestamp
+  trans_col: lifecycle:transition
+  res_col: org:resource
+  case_feat: ['SUMleges', 'caseStatus', 'last_phase', 'Responsible_actor', 'parts', 'termName', 'requestComplete', 'caseProcedure', 'Includes_subCases']  
+  event_feat: ['monitoringResource']
+  act_window: 5
+split:
+  train_ratio: 0.8
+

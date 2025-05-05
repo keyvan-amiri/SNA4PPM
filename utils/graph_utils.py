@@ -148,12 +148,12 @@ def get_local_graph(G, node, mode="rem_time", length=3):
             subgraph.add_node(succ, **G.nodes[succ])
             if G.has_edge(node, succ):
                 subgraph.add_edge(node, succ, **G.edges[node, succ])
+        all_paths = None
     elif mode == "rem_time":        
         all_paths = paths_up_to_length_s(G, node, 'End', length)
         subgraph = subgraph_from_paths(G, all_paths)
-    else:
-        raise ValueError("Mode must be next_time or rem_time")    
-    return subgraph
+    return subgraph, all_paths
+    
 
 def single_workload(G, container, timestamp, container_type='node'):
     if container_type=='node':
@@ -178,7 +178,7 @@ def remove_isolated_nodes(G):
 
 def get_sub_graph (work_graph, resource, end_time, mode= "rem_time", length=3,
                    window=False, window_size=None):
-    sub_graph = get_local_graph(work_graph, resource, mode=mode, length=length)
+    sub_graph, paths = get_local_graph(work_graph, resource, mode=mode, length=length)
     nodes_to_remove = []
     for node in sub_graph.nodes:
         all_in_times = sub_graph.nodes[node]['data']['in_time']

@@ -1,0 +1,15 @@
+graph:
+  abstraction: True
+  rp_sim: 0.85
+  neighbors: 5
+features:
+  case_col: case:concept:name
+  act_col: concept:name
+  time_col: time:timestamp
+  trans_col: lifecycle:transition
+  res_col: org:resource
+  case_feat: ['LoanGoal', 'ApplicationType', 'RequestedAmount']  
+  event_feat: ['Action', 'EventOrigin', 'FirstWithdrawalAmount', 'NumberOfTerms', 'Accepted', 'MonthlyCost', 'Selected', 'CreditScore', 'OfferedAmount']
+  act_window: 5
+split:
+  train_ratio: 0.8

@@ -1,0 +1,32 @@
+dws-login-01.informatik.uni-mannheim.de
+salloc --partition gpu-vram-94gb --cpus-per-task=90 --mem=280G --gres=gpu:1 --time=1:00:00
+salloc --partition gpu-vram-48gb --cpus-per-task=30 --mem=70G --gres=gpu:1 --time=6:00:00
+salloc --partition cpu --cpus-per-task=90 --time=2:00:00
+
+conda create -n SNA python=3.11
+conda activate SNA
+
+cd /ceph/kamiriel/SNA4PPM
+
+
+python Prepare_log.py --dataset BPIC20DD
+python Prepare_log.py --dataset BPIC20ID
+python Prepare_log.py --dataset BPIC20PTC
+python Prepare_log.py --dataset BPIC15_1
+python Prepare_log.py --dataset BPIC15_2
+python Prepare_log.py --dataset BPIC15_3
+python Prepare_log.py --dataset BPIC15_4
+python Prepare_log.py --dataset BPIC15_5
+python Prepare_log.py --dataset BPIC17
+python Prepare_log.py --dataset HelpDesk
+
+
+
+
+
+
+sbatch bash_scripts/BPIC17.sh
+
+
+
+sed -i 's/\r//' bash_scripts/BPIC17.sh

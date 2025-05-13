@@ -1,0 +1,2 @@
+BPIC17_two_TS.csv filter=lfs diff=lfs merge=lfs -text
+data/processed/BPIC17_two_TS.csv filter=lfs diff=lfs merge=lfs -text

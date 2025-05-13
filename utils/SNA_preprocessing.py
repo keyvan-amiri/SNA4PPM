@@ -83,7 +83,7 @@ def basic_process(df_inp, args):
 
 
 def match_start_complete(
-        df, case_col='case:concept:name', act_col='concept:name', 
+        df_inp, case_col='case:concept:name', act_col='concept:name', 
         res_col='org:resource', time_col='time:timestamp',
         trans_col='lifecycle:transition', case_features=None,
         event_features=None):    
@@ -95,16 +95,25 @@ def match_start_complete(
         elif transition.lower() == 'complete':
             return 1
         
-    df = df.copy()
-    df['_transition_order'] = df[trans_col].apply(transition_sort_key)    
-    # Full sort order
-    df = df.sort_values(
-        by=[case_col, time_col, '_transition_order']
-    ).reset_index(drop=True)    
-    df = df.drop(columns=['_transition_order'])
-    result_rows = []    
+    df = df_inp.copy()
+    #Find which activities can be matched
+    activity_transitions = df.groupby(act_col)[trans_col].unique().apply(set)
+    matchable_activities = activity_transitions[
+        activity_transitions.apply(
+            lambda s: {'start', 'complete'}.issubset(s))].index
+    # Separate the data into two parts
+    df_matchable = df[df[act_col].isin(matchable_activities)]
+    df_instant = df[~df[act_col].isin(matchable_activities)]
+    
+    df_matchable['_transition_order'] = df_matchable[trans_col].apply(transition_sort_key)
+    # sort matchable items
+    df_matchable = df_matchable.sort_values(
+        by=[case_col, time_col, '_transition_order']).reset_index(drop=True)   
+    df_matchable = df_matchable.drop(columns=['_transition_order'])
+    result_rows = []  
+    no_match = 0
     # Group by case
-    for case_id, case_df in df.groupby(case_col):
+    for case_id, case_df in df_matchable.groupby(case_col):
         pending_starts = {}        
         for idx, row in case_df.iterrows():
             key = (row[act_col], row[res_col])            
@@ -131,8 +140,25 @@ def match_start_complete(
                     result_rows.append(combined_row)
                 else:
                     # No matching start found
-                    pass
-    result_df = pd.DataFrame(result_rows)    
+                    no_match += 1
+    print('no start match found for:', no_match, 'examples')
+    
+    # INSTANT PART
+    for idx, row in df_instant.iterrows():
+        combined_row = {
+            case_col: row[case_col],
+            act_col: row[act_col],
+            res_col: row[res_col],
+            'start': row[time_col],
+            'end': row[time_col],
+        }
+        for feature in case_features:
+            combined_row[feature] = row[feature]
+        for feature in event_features:
+            combined_row[feature] = row[feature]
+        result_rows.append(combined_row)
+        
+    result_df = pd.DataFrame(result_rows)     
     return result_df
 
 

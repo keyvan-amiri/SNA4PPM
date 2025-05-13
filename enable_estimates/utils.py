@@ -599,15 +599,13 @@ def read_csv_log(
         event_log[log_ids.resource] = event_log[log_ids.resource].apply(str)
     if time_format_inference:
         event_log[log_ids.end_time] = pd.to_datetime(
-            event_log[log_ids.end_time], utc=True, format="%Y-%m-%d %H:%M:%S%z")
+            event_log[log_ids.end_time], utc=True, format='mixed')
         if log_ids.start_time in event_log.columns:
             event_log[log_ids.start_time] = pd.to_datetime(
-                event_log[log_ids.start_time], utc=True,
-                format="%Y-%m-%d %H:%M:%S%z")
+                event_log[log_ids.start_time], utc=True, format='mixed')
         if log_ids.enabled_time in event_log.columns:
             event_log[log_ids.enabled_time] = pd.to_datetime(
-                event_log[log_ids.enabled_time], utc=True, 
-                format="%Y-%m-%d %H:%M:%S%z")
+                event_log[log_ids.enabled_time], utc=True, format='mixed')
     else:
         # Convert timestamp value to pd.Timestamp (setting timezone to UTC)
         event_log[log_ids.end_time] = pd.to_datetime(

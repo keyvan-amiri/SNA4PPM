@@ -44,6 +44,7 @@ def main():
             res_col=args.res_col, time_col=args.time_col,
             trans_col=args.trans_col, case_features=args.case_feat,
             event_features=args.event_feat)
+        print('event log', len(event_log))
         event_log.to_csv(args.out_path, index=False)   
         # Set up custom configuration
         configuration = Configuration(
@@ -66,6 +67,7 @@ def main():
         extended_event_log = concurrency_oracle.add_enabled_times(
             event_log,
             set_nat_to_first_event=False)
+        print('extended log', len(extended_event_log))
     else:
         log = log.rename(columns={args.time_col: 'end'})
         log['start'] = pd.NA
@@ -100,6 +102,7 @@ def main():
     processed_log = add_start_end_events(
         extended_event_log, num_trans, case_col=args.case_col, 
         act_col=args.act_col, res_col=args.res_col)
+    print('processed log', len(processed_log))
     # get training and test ids
     _, train_case_ids, test_case_ids = split_cases(
         processed_log, case_col=args.case_col, time_col='start',
@@ -120,6 +123,7 @@ def main():
         processed_log, act_col=args.act_col, res_col=args.res_col,
         rp_sim=args.rp_sim) 
     final_log['enabling_role'] = final_log['enabling_resource'].map(role_map)
+    print('final log', len(final_log))
     with open(args.role_map, 'wb') as f:
         pickle.dump(role_map, f)
     queuing_graph = create_queuing_graph(
@@ -131,12 +135,14 @@ def main():
     #nx.write_gpickle(queuing_graph, args.graph_path)
     result_log = get_intra_case_features(
         final_log, case_col=args.case_col, act_col=args.act_col,
-        act_window=args.act_window)    
+        act_window=args.act_window)   
+    print('result log', len(final_log))
     tabular_df = get_inter_case_features(result_log, queuing_graph,
                                          neighbors=args.neighbors,
                                          abstraction=args.abstraction,
                                          case_col=args.case_col,
-                                         res_col=args.res_col)     
+                                         res_col=args.res_col) 
+    print('tabular log', len(tabular_df))    
     # remove unuseful columns
     tabular_df = tabular_df.loc[:, tabular_df.nunique() > 1]
     # add Train-test label

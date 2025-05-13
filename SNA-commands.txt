@@ -22,11 +22,31 @@ python Prepare_log.py --dataset HelpDesk
 
 
 
-
-
-
 sbatch bash_scripts/BPIC17.sh
 
-
-
 sed -i 's/\r//' bash_scripts/BPIC17.sh
+
+
+cd /ceph/kamiriel/SNA_baselines
+cd /ceph/kamiriel/SNA_baselines/GraphGPS
+cd /ceph/kamiriel/SNA_baselines/GraphGPS/PGTNet
+
+conda activate graphgps
+
+
+sed -i 's/\r//' bash_scripts/conversion.sh
+sbatch bash_scripts/conversion.sh
+sbatch bash_scripts/conversion2.sh
+sbatch bash_scripts/train1.sh
+sbatch bash_scripts/train2.sh
+sbatch bash_scripts/train3.sh
+sbatch bash_scripts/train4.sh
+
+python GTconvertor.py conversion_configs HelpDesk.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic15m1.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic15m2.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic15m3.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic15m4.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic15m5.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic20d.yaml --overwrite true
+python GTconvertor.py conversion_configs bpic20i.yaml --overwrite true

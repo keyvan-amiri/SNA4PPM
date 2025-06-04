@@ -12,11 +12,11 @@ This is the github repository for our paper "QueueTab: Remaining Time Prediction
 ### Feature Extraction
 The feature extraction process involves three main steps:
 
-Establishing the activity-instance log
+- Establishing the activity-instance log
 
-Creating the queuing network
+- Creating the queuing network
 
-Extracting intra- and inter-case features
+- Extracting intra- and inter-case features
 
 To execute these steps, specify the dataset name and run the **Prepare_log.py** script as shown below:
 ```bash

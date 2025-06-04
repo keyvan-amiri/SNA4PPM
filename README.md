@@ -38,6 +38,7 @@ To run experiments on other event logs, create a separate configuration file sim
 #### Training Tabular models
 
 ##### Training baseline models
+To train and evaluate baseline approaches **LS-ICE** and **PGTNet** follow the instruction here. 
 
 
 

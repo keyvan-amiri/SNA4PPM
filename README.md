@@ -32,6 +32,9 @@ This process generates a **.csv** file used to train tabular models such as TabM
 
 The target column for remaining time prediction is **rem_time**. Additional timestamp columns (start, end, enabled_time) are used during feature extraction but not for training the tabular models. Two extra columns, next_proc and next_wait, are included for predicting next processing and waiting times, though these tasks are beyond the scope of our paper.
 
+To run experiments on other event logs, create a separate configuration file similar to [BPIC20DD.yaml](https://github.com/keyvan-amiri/SNA4PPM/blob/main/cfg/BPIC20DD.yaml).
+
+
 #### Training Tabular models
 
 ##### Training baseline models

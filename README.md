@@ -22,6 +22,8 @@ To execute these steps, specify the dataset name and run the **Prepare_log.py** 
 ```bash
 python Prepare_log.py --dataset BPIC20DD
 ```
+This results in a **.csv** file that is used for training tabular models TabM and CatBoost. For instance, the outcome of the previous script is [BPIC20DD_two_TS.csv](https://github.com/keyvan-amiri/SNA4PPM/blob/main/data/processed/BPIC20DD/BPIC20DD_two_TS.csv)
+
 
 #### Training Tabular models
 

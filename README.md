@@ -8,7 +8,19 @@ This is the repository for our paper "QueueTab: Remaining Time Prediction via Qu
 
 
 ## Installation
+First, clone this GitHub repository to your local machine:
 
+```bash
+git clone https://github.com/keyvan-amiri/SNA4PPM
+```
+To install and set up the required environment on a Linux system, run the following commands:
+
+```bash
+conda create -n queue_tab python=3.11
+conda activate queue_tab
+pip install -r requirements.txt
+conda clean --all
+```
 ## Feature Extraction
 The feature extraction process involves three main steps:
 

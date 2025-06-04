@@ -2,6 +2,11 @@
 
 This is the github repository for our paper "QueueTab: Remaining Time Prediction via Queuing Networks and Machine Learning for Tabular Data" submitted to ICPM2025 conference.
 
+<p align="center">
+  <img src="https://github.com/keyvan-amiri/SNA4PPM/blob/main/QueueTab.jpg">
+</p>
+
+
 ## Installation
 
 ### Feature Extraction

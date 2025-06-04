@@ -9,7 +9,7 @@ This is the repository for our paper "QueueTab: Remaining Time Prediction via Qu
 
 ## Installation
 
-### Feature Extraction
+## Feature Extraction
 The feature extraction process involves three main steps:
 
 - Establishing the activity-instance log
@@ -35,10 +35,7 @@ The target column for remaining time prediction is **rem_time**. Additional time
 To run experiments on other event logs, create a separate configuration file similar to [BPIC20DD.yaml](https://github.com/keyvan-amiri/SNA4PPM/blob/main/cfg/BPIC20DD.yaml).
 
 
-#### Training Tabular models
+## Training Tabular models
 
-##### Training baseline models
-To train and evaluate baseline approaches **LS-ICE** and **PGTNet** follow the instruction here. 
-
-
-
+## Training baseline models
+To train and evaluate baseline approaches **LS-ICE** and **PGTNet** follow the instruction [here](https://github.com/keyvan-amiri/SNA4PPM/blob/main/baselines/README.md). 

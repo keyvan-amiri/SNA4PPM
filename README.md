@@ -34,8 +34,8 @@ The target column for remaining time prediction is **rem_time**. Additional time
 
 To run experiments on other event logs, create a separate configuration file similar to [BPIC20DD.yaml](https://github.com/keyvan-amiri/SNA4PPM/blob/main/cfg/BPIC20DD.yaml).
 
-
 ## Training Tabular models
+After feature extraction, tabular models are trained using the **run_tabular_experiment.py** script. You can replicate our experiments across all 10 event logs in the paper using the **run_tabular_experiment.sh** bash script. A summary of the results for each dataset is available [here](https://github.com/keyvan-amiri/SNA4PPM/tree/main/results_compact). For evaluation and additional visualizations, refer to the **Evaluation.ipynb** Jupyter notebook. 
 
 ## Training baseline models
 To train and evaluate baseline approaches **LS-ICE** and **PGTNet** follow the instruction [here](https://github.com/keyvan-amiri/SNA4PPM/blob/main/baselines/README.md). 

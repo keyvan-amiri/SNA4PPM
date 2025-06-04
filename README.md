@@ -1,4 +1,14 @@
-# QueueTab: Remaining Time Prediction via Queue Mining and Machine Learning for Tabular Data
+# QueueTab: Remaining Time Prediction via Queuing Networks and Machine Learning for Tabular Data
+
+This is the github repository for our paper "QueueTab: Remaining Time Prediction via Queuing Networks and Machine Learning for Tabular Data" submitted to ICPM2025 conference.
+
+## Installation
+
+### Feature Extraction
+
+#### Training Tabular models
+
+##### Training baseline models
 
 Name of the target column is "**rem_time**" for all datasets.
 

@@ -46,60 +46,18 @@ def set_seed(seed=42):
 
 def get_config(model_name):
     base_dir = "tabular_learning/configs/"
-    if model_name in ["XGBoost", "XGBModel1024Bins", "XGBModelExact", "XGBModelDepth20", "XGBModelDepth1", "XGBModelDepth2", "XGBModelDepth3", "XGBModelDepth4", "XGBModelDepth5", "XGBoostLossguided", "XGBoostHolzmueller", "XGBoostSmallData"]:
-        with open(base_dir+'xgb_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-        configs["model"]["model_name"] = model_name
-    if model_name == "MLPContLinear":
-        with open(base_dir+'mlp_contlinear_config.yaml', 'r') as file: 
-            configs = yaml.safe_load(file)
-    if model_name == "MLPContReLU":
-        with open(base_dir+'mlp_contrelu_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-    if model_name in ["MLP", "MLPModelMish", "MLPModelLongTrain"]:
-        with open(base_dir+'mlp_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-        configs["model"]["model_name"] = model_name
-    if model_name == "ResNet":
-        with open(base_dir+'resnet_config.yaml', 'r') as file: 
-            configs = yaml.safe_load(file)
-    if model_name in ["CatBoost", "CatBoostModel1024Bins", "CatBoostLossguided"]:
+    if model_name in ["CatBoost"]:
         with open(base_dir+'catboost_config.yaml', 'r') as file:
             configs = yaml.safe_load(file)
         configs["model"]["model_name"] = model_name
-    if model_name in ["MLP-PLR", "MLPPLRHighEmbedding", "MLPPLRFixedArchitecture", "MLPPLRFixedArchitectureTuneSeed", "MLPPLRFeatureDropout", "MLPPLRStopInterpol", "MLP-PLR-minmax", "MLP-PLR-notransform"]:
-        with open(base_dir+'mlpplr_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-        configs["model"]["model_name"] = model_name
-        if model_name == "MLP-PLR-minmax":# , 
-            configs["dataset"]["num_scaler"] = "minmax" 
-        elif model_name == "MLP-PLR-notransform":
-            configs["dataset"]["num_scaler"] = None 
-    if model_name == "TabMStopInterpol":
-        with open(base_dir+'tabm_stopinterpol_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file) 
-    if model_name == "MLPStopInterpol":
-        with open(base_dir+'mlp_stopinterpol_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file) 
-    if model_name == "FTTransformer":
-        with open(base_dir+'fttransformer_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-    if model_name in ["LightGBM", "LightGBMModelDepthLimit", "LightGBMModel1024Bins", "LightGBMModelNomindataleaf", "LightGBMHolzmueller", "LightGBMModelHuertas", "LightGBMModelHuertasTuneMinLeaf", "LightGBMModelExperiment", "LightGBMModel1024BinsHuertasTuneMinLeaf", "LightGBMModel50000Bins", "LightGBMModelAllCat", "LightGBMModelHuertas2"]:
-        with open(base_dir+'lightgbm_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-        configs["model"]["model_name"] = model_name
+
     if model_name == "TabM":
         with open(base_dir+'tabm_config.yaml', 'r') as file:
             configs = yaml.safe_load(file)
     if model_name == "TabMmini":
         with open(base_dir+'tabm-mini_config.yaml', 'r') as file:
             configs = yaml.safe_load(file)
-    if model_name == "RealMLP":
-        with open(base_dir+'realmlp_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
-    if model_name == "TabPFNv2":
-        with open(base_dir+'tabpfnv2_config.yaml', 'r') as file:
-            configs = yaml.safe_load(file)
+
 
     return configs 
 
@@ -257,43 +215,45 @@ def get_results(configs):
                     
                 print(f"Use {parallel_tasks} GPUs and parallelize {configs['model']['seeds_parallel']} seeds on each GPU")
                 ray.init(
-                    runtime_env={"working_dir": ".", 
-                                       "excludes": [
-                                           "AutogluonModels/",
-                                            "cfg/",
-                                            "data/",
-                                           "enable_estimates/",
-                                           "logs/",
-                                           "results/",
-                                           "tabicl/",
-                                           "utils/",
-                                           "test.ipynb",
-                                           "*.sh",
-                                           "*.ipynb",
-                                        ],
-                                     },
+                    # runtime_env={"working_dir": ".", 
+                    #                    "excludes": [
+                    #                        "AutogluonModels/",
+                    #                         "cfg/",
+                    #                         "data/",
+                    #                        "enable_estimates/",
+                    #                        "logs/",
+                    #                        "results/",
+                    #                        "tabicl/",
+                    #                        "utils/",
+                    #                        "test.ipynb",
+                    #                        "*.sh",
+                    #                        "*.ipynb",
+                    #                     ],
+                    #                  },
                     num_cpus=(configs["model"]["seeds_parallel"]*parallel_tasks), # Each parallel seed uses own CPU-core 
                     num_gpus=parallel_tasks # Use all available GPUs as previously specified
                 ) 
     
-                run_seed_parallel = run_seed.options(num_cpus=1, # Each GPU uses one CPU
+                run_seed_parallel = run_seed.options(num_cpus=1, # Each GPU uses one CPU   
                                                      num_gpus=1/configs["model"]["seeds_parallel"]) # Each GPU trains seeds_parallel seeds
             else:
-                ray.init(runtime_env={"working_dir": ".", 
-                                       "excludes": [
-                                           "AutogluonModels/",
-                                            "cfg/",
-                                            "data/",
-                                           "enable_estimates/",
-                                           "logs/",
-                                           "results/",
-                                           "tabicl/",
-                                           "utils/",
-                                           "test.ipynb",
-                                           "*.sh",
-                                           "*.ipynb",
-                                        ],
-                                     })
+                ray.init(
+                    # runtime_env={"working_dir": ".", 
+                    #                    "excludes": [
+                    #                        "AutogluonModels/",
+                    #                         "cfg/",
+                    #                         "data/",
+                    #                        "enable_estimates/",
+                    #                        "logs/",
+                    #                        "results/",
+                    #                        "tabicl/",
+                    #                        "utils/",
+                    #                        "test.ipynb",
+                    #                        "*.sh",
+                    #                        "*.ipynb",
+                    #                     ],
+                    #                  }
+                )
                 parallel_tasks = 0
                 run_seed_parallel = run_seed.options(num_cpus=np.trunc(configs["model"]["num_threads"]/configs["model"]["seeds_parallel"]), # Each seed uses X CPUs
                                                      num_gpus=0) # Each GPU trains seeds_parallel seeds
@@ -377,7 +337,7 @@ def run_seed(dataset,
         print(f"No preprocessing applied (either because none is selected or because preprocess_type={preprocess_type} is not implemented)")
 
     # Apply model-specific preprocessing
-    if seed_configs["model"]["model_name"] in ["MLP", "ResNet", "ResNetPLR", "FTTransformer", "MLP-PLR", "Trompt", "MLPContLinear", "MLPContReLU", "MLPContReLUTarget", "MLPContDoubleReLUTarget", "MLPContWeightedSum", "TabM", "TabMmini", "MLPPLRFixedArchitecture", "MLPPLRFixedArchitectureTuneSeed", "MLPPLRFeatureDropout", "MLPPLRStopInterpol", "TabMStopInterpol", "MLPStopInterpol", "MLPPLRHighEmbedding", "MLP-PLR-minmax", "MLP-PLR-notransform", "MLPModelMish", "MLPModelLongTrain"]:  
+    if seed_configs["model"]["model_name"] in ["MLP", "ResNet", "ResNetPLR", "FTTransformer", "MLP-PLR", "TabM", "TabMmini"]:  
         if "num_scaler" not in seed_configs["dataset"]:
             seed_configs["dataset"]["num_scaler"] = "quantile"
     
